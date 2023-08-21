@@ -23,4 +23,9 @@
         </intent-filter>
       </activity>
     </application>
+
+    <!-- Bypass APPLICATION_ID check for WebView API for Ads -->
+    <meta-data
+        android:name="com.google.android.gms.ads.INTEGRATION_MANAGER"
+        android:value="webview"/>
 </manifest>
