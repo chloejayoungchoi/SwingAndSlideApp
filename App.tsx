@@ -4,8 +4,6 @@ import { SafeAreaView,
          StyleSheet, 
          Dimensions, 
          BackHandler, 
-         ScrollView,
-         RefreshControl, 
          Alert } from 'react-native';
 import { useEffect, 
          useState, 
@@ -14,7 +12,6 @@ import SplashScreen from 'react-native-splash-screen';
 import { Linking } from 'react-native';
 import { Platform, PermissionsAndroid } from "react-native";
 import Geolocation from "react-native-geolocation-service";
-
 
 const App = () => {
   const BASE_URL = 'https://swingandslide.net';
@@ -131,23 +128,8 @@ const App = () => {
     webview.current.postMessage(JSON.stringify({'type': type, 'value': value}));
   }
 
-
-  const [refreshing, setRefreshing] = React.useState(false);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-
   return (
   <SafeAreaView style={styles.container}>
-    <ScrollView
-        contentContainerStyle={styles.container}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
       <WebView
           ref={webview}
           style={styles.webview}
@@ -183,7 +165,6 @@ const App = () => {
             true;
           `}
       />
-    </ScrollView>
   </SafeAreaView>
   );
 };
