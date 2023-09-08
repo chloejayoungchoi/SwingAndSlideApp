@@ -12,6 +12,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { Linking } from 'react-native';
 import { Platform, PermissionsAndroid } from "react-native";
 import Geolocation from "react-native-geolocation-service";
+import AdmobBannerBottom from './AdmobBannerBottom';
 
 const App = () => {
   const BASE_URL = 'https://swingandslide.net';
@@ -130,41 +131,42 @@ const App = () => {
 
   return (
   <SafeAreaView style={styles.container}>
-      <WebView
-          ref={webview}
-          style={styles.webview}
-          pullToRefreshEnabled={true}
-          startInLoadingState={true}
-          allowsBackForwardNavigationGestures={true}
-          source={{ uri: BASE_URL }}
-          onMessage={onHandleMessageFromWebview}
-          // onShouldStartLoadWithRequest={event => {
-          //   //외부링크
-          //   if (!event.url.startsWith(BASE_URL)) {
-          //     Linking.openURL(event.url);
-          //     return false;
-          //   }
-          //   return true;
-          // }} // 안드로이드에서는 괜찮은데 ios에서 문제가 생겨서 주석처리함 230822
-          injectedJavaScript={`
-            (function() {
-                function wrap(fn) {
-                  return function wrapper() {
-                      var res = fn.apply(this, arguments);
-                      window.ReactNativeWebView.postMessage(JSON.stringify({type: "URL", value:history.length}));
-                      return res;
-                  }
+    <WebView
+        ref={webview}
+        style={styles.webview}
+        pullToRefreshEnabled={true}
+        startInLoadingState={true}
+        allowsBackForwardNavigationGestures={true}
+        source={{ uri: BASE_URL }}
+        onMessage={onHandleMessageFromWebview}
+        // onShouldStartLoadWithRequest={event => {
+        //   //외부링크
+        //   if (!event.url.startsWith(BASE_URL)) {
+        //     Linking.openURL(event.url);
+        //     return false;
+        //   }
+        //   return true;
+        // }} // 안드로이드에서는 괜찮은데 ios에서 문제가 생겨서 주석처리함 230822
+        injectedJavaScript={`
+          (function() {
+              function wrap(fn) {
+                return function wrapper() {
+                    var res = fn.apply(this, arguments);
+                    window.ReactNativeWebView.postMessage(JSON.stringify({type: "URL", value:history.length}));
+                    return res;
                 }
-                history.pushState = wrap(history.pushState);
-                history.replaceState = wrap(history.replaceState);
-                window.addEventListener('popstate', function() {
-                  window.ReactNativeWebView.postMessage(JSON.stringify({type: "URL", value:history.length}));
-                });
+              }
+              history.pushState = wrap(history.pushState);
+              history.replaceState = wrap(history.replaceState);
+              window.addEventListener('popstate', function() {
+                window.ReactNativeWebView.postMessage(JSON.stringify({type: "URL", value:history.length}));
+              });
 
-            })();
-            true;
-          `}
-      />
+          })();
+          true;
+        `}
+    />
+    <AdmobBannerBottom />
   </SafeAreaView>
   );
 };
@@ -181,7 +183,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: deviceWidth,
     height: deviceHeight,
-  },
+  }
 });
 
 export default App;

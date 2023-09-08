@@ -1,4 +1,8 @@
 {
   "name": "SwingAndSlideApp",
-  "displayName": "SwingAndSlideApp"
+  "displayName": "SwingAndSlideApp",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-4742756646856813~7868754955",
+    "ios_app_id": "ca-app-pub-4742756646856813~7868754955"
+  }
 }
